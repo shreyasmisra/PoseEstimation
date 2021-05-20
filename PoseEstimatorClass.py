@@ -63,8 +63,7 @@ class PoseDetector:
         self.results = self.pose.process(img)
         
         if self.results.pose_landmarks:
-            if draw:
-                
+            if draw: 
                 if not self.mode:
                     img = cv.cvtColor(img,cv.COLOR_RGB2BGR)
                     
@@ -78,5 +77,19 @@ class PoseDetector:
         
         return img
         
-    
+    def get_landmarks(self,img,draw=True,to_print=False):
+        landmarks= []
+        if self.results.pose_landmarks:
+            for idx, lm in enumerate(self.results.pose_landmarks.landmark):
+                h, w, c = img.shape
+                
+                if to_print:   
+                    print("Landmark ID: ",idx," Location: ", lm,"\n")
+                
+                cx, cy = int(lm.x * w), int(lm.y * h)
+                landmarks.append([idx, cx, cy])
+                
+                if draw:
+                    cv.circle(img, (cx, cy), 5, (255, 0, 0), cv.FILLED)
+        return landmarks
     
