@@ -3,8 +3,7 @@ import mediapipe as mp
 
 class PoseDetector:
     def __init__(self,static_image_mode=False,smooth_landmarks=True,detection_confidence=0.7,track_confidence=0.5):
-        """
-        
+        """        
         Parameters
         ----------
         static_image_mode : bool, optional
@@ -22,7 +21,6 @@ class PoseDetector:
         Returns
         -------
         None.
-
         """
         
         self.mode = static_image_mode
@@ -39,7 +37,6 @@ class PoseDetector:
     
     def find_pose(self,img,draw=True,save_img_path=None):
         """
-
         Parameters
         ----------
         img : image variable
@@ -52,8 +49,8 @@ class PoseDetector:
 
         Returns
         -------
-        None.
-
+        img : list
+            The input image
         """
         
         if self.mode:
@@ -78,13 +75,29 @@ class PoseDetector:
         return img
         
     def get_landmarks(self,img,draw=True,to_print=False):
+        """
+        Parameters
+        ----------
+        img : image 
+            The input image/snapshot of a video.
+        draw : bool, optional
+            Whether to draw the pose on the image/video. The default is True.
+        to_print : bool, optional
+            True when the landmark parameters -- x,y,z and visibility -- have to be printed. The default is False.
+
+        Returns
+        -------
+        landmarks : list
+            List of ID and centers of each landmarks in the frame.
+        """
+        
         landmarks= []
         if self.results.pose_landmarks:
             for idx, lm in enumerate(self.results.pose_landmarks.landmark):
                 h, w, c = img.shape
                 
                 if to_print:   
-                    print("Landmark ID: ",idx," Location: ", lm,"\n")
+                    print("Landmark ID: ",idx,"\nLocation:\n ", lm,"\n")
                 
                 cx, cy = int(lm.x * w), int(lm.y * h)
                 landmarks.append([idx, cx, cy])

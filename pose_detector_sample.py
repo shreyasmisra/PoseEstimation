@@ -2,8 +2,8 @@ import cv2 as cv
 import mediapipe as mp
 import PoseEstimatorClass as p
 
-video_path = "/VID_20210403_220639.mp4"
-img_path = "/20181106_193657.jpg"
+#video_path = <insert path>
+#img_path = <insert path>
 
 image_mode = False
 #detection_confidence = 0.8
@@ -21,7 +21,7 @@ if not image_mode:
     while True:
         retval,image = cap.read()
         image = detector_model.find_pose(image)
-        landmarks = detector_model.get_landmarks(image)
+        landmarks = detector_model.get_landmarks(image,to_print=False)
         image = cv.flip(image,1)
         cv.imshow("Image", image)
         k = cv.waitKey(1)
